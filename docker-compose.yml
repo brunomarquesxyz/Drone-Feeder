@@ -1,0 +1,11 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8.0.31
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=drone_feeder
