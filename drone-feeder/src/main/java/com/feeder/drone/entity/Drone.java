@@ -39,4 +39,8 @@ public class Drone extends PanacheEntityBase {
   private List<Delivery> deliveries;
 
   public Drone() {}
+
+  public static Drone findByName(String name){
+    return find("name", name).firstResult();
+  }
 }
