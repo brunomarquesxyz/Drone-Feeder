@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class DeliveryService {
@@ -32,5 +33,26 @@ public class DeliveryService {
 
   public Delivery getDeliveryById(UUID deliveryId) {
     return (Delivery) Delivery.list("SELECT '*' FROM Drone WHERE id = :droneId", deliveryId);
+  }
+
+  @Transactional
+  public Delivery update(Delivery updatesData, Long deliveryId) {
+    var toUpdate = Delivery.findById(deliveryId);
+
+    if (toUpdate == null) throw new NotFoundException("Delivery not found");
+
+    Delivery.update(
+        "status = ?1, latitude = ?2, longitude = ?3 where id = ?4",
+        updatesData.getStatus(),
+        updatesData.getLatitude(),
+        updatesData.getLongitude(),
+        deliveryId
+    );
+    return updatesData;
+  }
+
+  @Transactional
+  public Boolean deleteDelivery(Long deliveryID) {
+    return Delivery.deleteById(deliveryID);
   }
 }
