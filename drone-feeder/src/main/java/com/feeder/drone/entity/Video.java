@@ -26,7 +26,7 @@ public class Video extends PanacheEntityBase {
   private UUID id;
 
   @NonNull
-  private String path;
+  private Byte[] data;
 
   @NonNull
   private String name;
