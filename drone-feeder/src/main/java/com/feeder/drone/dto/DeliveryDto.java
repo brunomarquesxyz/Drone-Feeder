@@ -1,14 +1,12 @@
 package com.feeder.drone.dto;
 
-import java.util.UUID;
-
 public class DeliveryDto {
 
   public void setLongitude(String longitude) {
     this.longitude = longitude;
   }
 
-  public UUID droneID;
+  public Long droneID;
 
   public String latitude;
 
@@ -17,17 +15,13 @@ public class DeliveryDto {
   public DeliveryDto() {
   }
 
-  public DeliveryDto(UUID droneID, String latitude, String longitude) {
+  public DeliveryDto(Long droneID, String latitude, String longitude) {
     this.droneID = droneID;
     this.latitude = latitude;
     this.longitude = longitude;
   }
-  public UUID getDroneID() {
+  public Long getDroneID() {
     return droneID;
-  }
-
-  public void setDroneID(UUID droneID) {
-    this.droneID = droneID;
   }
 
   public String getLatitude() {
