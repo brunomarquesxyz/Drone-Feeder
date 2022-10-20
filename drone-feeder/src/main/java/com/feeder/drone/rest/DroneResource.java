@@ -2,10 +2,13 @@ package com.feeder.drone.rest;
 
 import com.feeder.drone.entity.Drone;
 import com.feeder.drone.service.DroneService;
+import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,6 +25,21 @@ public class DroneResource {
   public Response createDrone(Drone droneToAdd) {
     droneService.createDrone(droneToAdd);
     return Response.ok(droneToAdd).build();
+  }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getAllDrones() {
+    List<Drone> allDrones = droneService.getAllDrones();
+    return Response.ok(allDrones).build();
+  }
+
+  @GET
+  @Path("/{name}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response getDroneById(@PathParam("name") String droneName) {
+    Drone allDrones = droneService.getDroneByName(droneName);
+    return Response.ok(allDrones).build();
   }
 
 }
