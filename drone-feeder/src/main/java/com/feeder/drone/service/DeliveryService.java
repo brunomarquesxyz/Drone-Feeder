@@ -4,7 +4,6 @@ import com.feeder.drone.dto.DeliveryDto;
 import com.feeder.drone.entity.Delivery;
 import com.feeder.drone.entity.Drone;
 import java.util.List;
-import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
@@ -31,8 +30,8 @@ public class DeliveryService {
     return Delivery.listAll();
   }
 
-  public Delivery getDeliveryById(UUID deliveryId) {
-    return (Delivery) Delivery.list("SELECT '*' FROM Drone WHERE id = :droneId", deliveryId);
+  public Delivery getDeliveryById(Long deliveryId) {
+    return Delivery.findById(deliveryId);
   }
 
   @Transactional
