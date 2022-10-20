@@ -2,10 +2,6 @@ package com.feeder.drone.dto;
 
 public class DeliveryDto {
 
-  public void setLongitude(String longitude) {
-    this.longitude = longitude;
-  }
-
   public Long droneID;
 
   public String latitude;
@@ -26,10 +22,6 @@ public class DeliveryDto {
 
   public String getLatitude() {
     return latitude;
-  }
-
-  public void setLatitude(String latitude) {
-    this.latitude = latitude;
   }
 
   public String getLongitude() {
