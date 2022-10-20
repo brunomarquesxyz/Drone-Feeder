@@ -1,7 +1,10 @@
 package com.feeder.drone.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.feeder.drone.enums.DeliveryStatus;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -11,18 +14,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Delivery extends PanacheEntityBase {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", length = 36)
-  @NonNull
-  private UUID id;
+public class Delivery extends PanacheEntity implements Serializable {
+
+  private static final long serialVersionUID = - 3670232159675112852L;
 
   @NonNull
   @Column(name = "delivered_at")
@@ -37,6 +38,7 @@ public class Delivery extends PanacheEntityBase {
   private String latitude;
   private String longitude;
 
+  @JsonBackReference
   @ManyToOne
   private Drone drone;
 
@@ -47,5 +49,19 @@ public class Delivery extends PanacheEntityBase {
     this.drone = drone;
     this.latitude = latitude;
     this.longitude = longitude;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
+      return false;
+    Delivery delivery = (Delivery) o;
+    return Objects.equals(id, delivery.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
   }
 }

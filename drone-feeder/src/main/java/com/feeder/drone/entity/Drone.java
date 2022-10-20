@@ -1,8 +1,10 @@
 package com.feeder.drone.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -16,12 +18,9 @@ import org.hibernate.Hibernate;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Drone extends PanacheEntityBase {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "id", length = 36)
-  @NonNull
-  private UUID id;
+public class Drone extends PanacheEntity implements Serializable {
+
+  private static final long serialVersionUID = -3670232159675112851L;
 
   @NonNull
   @Column(unique = true)
@@ -33,6 +32,7 @@ public class Drone extends PanacheEntityBase {
   @NonNull
   private String longitude;
 
+  @JsonBackReference
   @OneToMany(targetEntity=Delivery.class)
   private List<Delivery> deliveries;
 
