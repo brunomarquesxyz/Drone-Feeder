@@ -12,11 +12,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @RequiredArgsConstructor
 public class Drone extends PanacheEntity implements Serializable {
 
@@ -34,6 +36,7 @@ public class Drone extends PanacheEntity implements Serializable {
 
   @JsonBackReference
   @OneToMany(targetEntity=Delivery.class)
+  @ToString.Exclude
   private List<Delivery> deliveries;
 
   public Drone() {}
