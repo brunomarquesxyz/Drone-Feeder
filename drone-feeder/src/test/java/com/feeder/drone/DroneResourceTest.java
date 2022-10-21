@@ -5,7 +5,9 @@ import com.github.javafaker.Faker;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.specification.RequestSpecification;
 import java.util.Random;
+
 import javax.ws.rs.core.MediaType;
+
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +18,16 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
 
+/**
+ * The type Drone resource test.
+ */
 @QuarkusTest
 public class DroneResourceTest {
 
 
+  /**
+   * Create drone.
+   */
   @Test
   @DisplayName("Should create new Drone when all fields are corrects and return status code 201")
   public void createDrone() {
@@ -33,6 +41,9 @@ public class DroneResourceTest {
         .statusCode(HttpStatus.SC_CREATED);
   }
 
+  /**
+   * Update drone.
+   */
   @Test
   @DisplayName("Should update drone latitude and longitude")
   public void updateDrone() {
@@ -63,6 +74,9 @@ public class DroneResourceTest {
         .body("longitude", is(newLongitude));
   }
 
+  /**
+   * Delete drone.
+   */
   @Test
   @DisplayName("Should delete a drone by his ID")
   public void deleteDrone() {
@@ -82,6 +96,9 @@ public class DroneResourceTest {
         .then().statusCode(HttpStatus.SC_NO_CONTENT);
   }
 
+  /**
+   * Find all drones.
+   */
   @Test
   @DisplayName("Should find all drones")
   public void findAllDrones() {
@@ -105,6 +122,9 @@ public class DroneResourceTest {
         .body("longitude", hasItem("234"));
   }
 
+  /**
+   * Find drone by id.
+   */
   @Test
   @DisplayName("Should find a drone by his name")
   public void findDroneById() {
@@ -127,11 +147,21 @@ public class DroneResourceTest {
         .body("longitude", equalTo("234"));
   }
 
+  /**
+   * Rest sut request specification.
+   *
+   * @return the request specification
+   */
   public RequestSpecification restSut() {
     return given()
         .contentType(MediaType.APPLICATION_JSON);
   }
 
+  /**
+   * Gen names string.
+   *
+   * @return the string
+   */
   public String genNames() {
     return new Faker().name().toString();
   }

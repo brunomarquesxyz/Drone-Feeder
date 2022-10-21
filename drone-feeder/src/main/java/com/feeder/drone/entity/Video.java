@@ -2,13 +2,18 @@ package com.feeder.drone.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import java.io.Serializable;
+
 import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * The type Video.
+ */
 @Entity
 @Getter
 @Setter
@@ -24,8 +29,18 @@ public class Video extends PanacheEntity implements Serializable {
   @NonNull
   private String name;
 
-  public Video() {}
+  /**
+   * Instantiates a new Video.
+   */
+  public Video() {
+  }
 
+  /**
+   * Find video by name video.
+   *
+   * @param name the name
+   * @return the video
+   */
   public static Video findVideoByName(String name) {
     return Video.find("name", name).firstResult();
   }

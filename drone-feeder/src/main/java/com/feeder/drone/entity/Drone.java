@@ -5,9 +5,11 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+/**
+ * The type Drone.
+ */
 @Entity
 @Getter
 @Setter
@@ -35,13 +40,23 @@ public class Drone extends PanacheEntity implements Serializable {
   private String longitude;
 
   @JsonBackReference
-  @OneToMany(targetEntity=Delivery.class)
+  @OneToMany(targetEntity = Delivery.class)
   @ToString.Exclude
   private List<Delivery> deliveries;
 
-  public Drone() {}
+  /**
+   * Instantiates a new Drone.
+   */
+  public Drone() {
+  }
 
-  public static Drone findByName(String name){
+  /**
+   * Find by name drone.
+   *
+   * @param name the name
+   * @return the drone
+   */
+  public static Drone findByName(String name) {
     return find("name", name).firstResult();
   }
 

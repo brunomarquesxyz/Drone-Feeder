@@ -8,6 +8,7 @@ import com.sun.mail.iap.ByteArray;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,12 +18,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.jboss.resteasy.annotations.jaxrs.FormParam;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+/**
+ * The type Video resource.
+ */
 @Path("/video")
 public class VideoResource {
 
+  /**
+   * The Video service.
+   */
   @Inject
   VideoService videoService;
 
@@ -37,6 +45,11 @@ public class VideoResource {
 
   } */
 
+  /**
+   * Gets all videos.
+   *
+   * @return the all videos
+   */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response getAllVideos() {
@@ -44,6 +57,12 @@ public class VideoResource {
     return Response.ok(allVideos).build();
   }
 
+  /**
+   * Gets video by id.
+   *
+   * @param videoName the video name
+   * @return the video by id
+   */
   @GET
   @Path("/{name}")
   @Produces(MediaType.APPLICATION_JSON)

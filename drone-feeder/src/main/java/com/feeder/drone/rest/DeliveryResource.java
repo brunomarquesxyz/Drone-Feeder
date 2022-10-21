@@ -4,6 +4,7 @@ import com.feeder.drone.dto.DeliveryDto;
 import com.feeder.drone.entity.Delivery;
 import com.feeder.drone.exceptions.ExceptionsDefinitions;
 import com.feeder.drone.service.DeliveryService;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,12 +19,24 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 
+/**
+ * The type Delivery resource.
+ */
 @Path("/delivery")
 public class DeliveryResource {
 
+  /**
+   * The Delivery service.
+   */
   @Inject
   DeliveryService deliveryService;
 
+  /**
+   * Find all deliveries response.
+   *
+   * @return the response
+   * @throws ExceptionsDefinitions the exceptions definitions
+   */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public Response findAllDeliveries() throws ExceptionsDefinitions {
@@ -32,6 +45,13 @@ public class DeliveryResource {
         .build();
   }
 
+  /**
+   * Find delivery id response.
+   *
+   * @param deliveryID the delivery id
+   * @return the response
+   * @throws ExceptionsDefinitions the exceptions definitions
+   */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
@@ -41,6 +61,13 @@ public class DeliveryResource {
         .build();
   }
 
+  /**
+   * Create delivery response.
+   *
+   * @param deliveryDto the delivery dto
+   * @return the response
+   * @throws ExceptionsDefinitions the exceptions definitions
+   */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -51,6 +78,14 @@ public class DeliveryResource {
         .build();
   }
 
+  /**
+   * Update delivery response.
+   *
+   * @param updatesData the updates data
+   * @param deliveryId  the delivery id
+   * @return the response
+   * @throws ExceptionsDefinitions the exceptions definitions
+   */
   @PUT
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -63,6 +98,13 @@ public class DeliveryResource {
         .build();
   }
 
+  /**
+   * Delete delivery response.
+   *
+   * @param deliveryId the delivery id
+   * @return the response
+   * @throws ExceptionsDefinitions the exceptions definitions
+   */
   @DELETE
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
