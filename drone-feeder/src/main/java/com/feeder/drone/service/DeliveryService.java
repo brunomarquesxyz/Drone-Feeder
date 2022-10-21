@@ -6,7 +6,6 @@ import com.feeder.drone.entity.Drone;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import javax.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class DeliveryService {
@@ -36,18 +35,15 @@ public class DeliveryService {
 
   @Transactional
   public Delivery update(Delivery updatesData, Long deliveryId) {
-    var toUpdate = Delivery.findById(deliveryId);
+    Delivery toUpdate = Delivery.findById(deliveryId);
 
-    if (toUpdate == null) throw new NotFoundException("Delivery not found");
+    toUpdate.setStatus(updatesData.getStatus());
+    toUpdate.setLatitude(updatesData.getLatitude());
+    toUpdate.setLongitude(updatesData.getLongitude());
 
-    Delivery.update(
-        "status = ?1, latitude = ?2, longitude = ?3 where id = ?4",
-        updatesData.getStatus(),
-        updatesData.getLatitude(),
-        updatesData.getLongitude(),
-        deliveryId
-    );
-    return updatesData;
+    Delivery.persist(toUpdate);
+
+    return toUpdate;
   }
 
   @Transactional

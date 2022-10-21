@@ -27,8 +27,10 @@ public class DroneService {
   public Drone updateDrone(Long id, DroneDto droneToUpdate) {
     Drone entity = Drone.findById(id);
 
-    Drone.update("latitude = ?1 WHERE id = ?2", droneToUpdate.getLatitude(), id);
-    Drone.update("longitude = ?1 WHERE id = ?2", droneToUpdate.getLongitude(), id);
+    entity.setLatitude(droneToUpdate.getLatitude());
+    entity.setLongitude(droneToUpdate.getLongitude());
+
+    Drone.persist(entity);
 
     return entity;
   }
