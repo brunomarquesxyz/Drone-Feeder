@@ -24,9 +24,9 @@ dependencies {
     implementation("com.github.javafaker:javafaker:1.0.2")
     implementation("com.h2database:h2:2.1.214")
     implementation("io.quarkus:quarkus-resteasy-multipart:2.13.2.Final")
-    implementation("io.quarkus:quarkus-jacoco:2.13.2.Final")
     implementation("io.github.huiaong:base64-multipartfile-starter:1.0.0-RELEASE")
     implementation("io.quarkus:quarkus-agroal:2.13.2.Final")
+    implementation("io.quarkus:quarkus-smallrye-openapi")
     compileOnly("org.projectlombok:lombok:1.18.24")
     annotationProcessor("org.projectlombok:lombok:1.18.24")
 
