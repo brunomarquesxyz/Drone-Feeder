@@ -3,25 +3,28 @@ package com.feeder.drone;
 import com.feeder.drone.entity.Drone;
 import com.github.javafaker.Faker;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.RestAssured;
-import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
+import java.util.Random;
 import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
 
 @QuarkusTest
 public class DroneResourceTest {
 
+
   @Test
   @DisplayName("Should create new Drone when all fields are corrects and return status code 201")
   public void createDrone() {
-    var drone1 = new Drone("drone1", "-100", "4567");
+
+    Drone drone1 = new Drone(genNames(), "-100", "4567");
     restSut()
         .when()
         .body(drone1)
@@ -31,26 +34,97 @@ public class DroneResourceTest {
   }
 
   @Test
-  @DisplayName("Should update drone name")
+  @DisplayName("Should update drone latitude and longitude")
   public void updateDrone() {
-    RestAssured.defaultParser = Parser.JSON;
-    var drone = new Drone("Drone", "100", "234");
-    var newDrone = restSut()
+    Drone drone = new Drone(genNames(), "100", "234");
+
+    Drone newDrone = restSut()
         .when()
         .body(drone)
         .post("/drone")
         .as(Drone.class);
 
-    String newName = genNames().name().toString();
+    Random randomGenerator = new Random();
+    float randomCoordinate = randomGenerator.nextFloat();
+    String newLatitude = Float.toString(randomCoordinate);
+    String newLongitude = Float.toString(randomCoordinate);
 
-    newDrone.setName(newName);
-    System.out.println(newDrone.id);
+
+    newDrone.setLatitude(newLatitude);
+    newDrone.setLongitude(newLongitude);
+
+
     restSut()
         .body(newDrone)
         .when()
-        .post("/drone" + newDrone)
-        .then()
-        .body("name", is(newName));
+        .put("/drone/" + newDrone.id)
+        .then().statusCode(HttpStatus.SC_ACCEPTED)
+        .body("latitude", is(newLatitude))
+        .body("longitude", is(newLongitude));
+  }
+
+  @Test
+  @DisplayName("Should delete a drone by his ID")
+  public void deleteDrone() {
+    Drone drone = new Drone(genNames(), "100", "234");
+
+    Drone newDrone = restSut()
+        .when()
+        .body(drone)
+        .post("/drone")
+        .as(Drone.class);
+
+
+    restSut()
+        .body(newDrone)
+        .when()
+        .delete("/drone/" + newDrone.id)
+        .then().statusCode(HttpStatus.SC_NO_CONTENT);
+  }
+
+  @Test
+  @DisplayName("Should find all drones")
+  public void findAllDrones() {
+    Drone drone = new Drone("Drone", "100", "234");
+
+    Drone newDrone = restSut()
+        .when()
+        .body(drone)
+        .post("/drone")
+        .as(Drone.class);
+
+    restSut()
+        .body(newDrone)
+        .when()
+        .get("/drone/")
+        .then().statusCode(HttpStatus.SC_OK)
+        .body("size()", equalTo(1))
+        .body("id", hasItem(2))
+        .body("name", hasItem("Drone"))
+        .body("latitude", hasItem("100"))
+        .body("longitude", hasItem("234"));
+  }
+
+  @Test
+  @DisplayName("Should find a drone by his name")
+  public void findDroneById() {
+    String droneName = genNames();
+    Drone drone = new Drone(droneName, "100", "234");
+
+    Drone newDrone = restSut()
+        .when()
+        .body(drone)
+        .post("/drone")
+        .as(Drone.class);
+
+    restSut()
+        .body(newDrone)
+        .when()
+        .get("/drone/" + newDrone.getName())
+        .then().statusCode(HttpStatus.SC_OK)
+        .body("name", equalTo(droneName))
+        .body("latitude", equalTo("100"))
+        .body("longitude", equalTo("234"));
   }
 
   public RequestSpecification restSut() {
@@ -58,7 +132,7 @@ public class DroneResourceTest {
         .contentType(MediaType.APPLICATION_JSON);
   }
 
-  public Faker genNames() {
-    return new Faker();
+  public String genNames() {
+    return new Faker().name().toString();
   }
 }
