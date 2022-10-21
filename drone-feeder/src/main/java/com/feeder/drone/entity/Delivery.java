@@ -25,7 +25,6 @@ public class Delivery extends PanacheEntity implements Serializable {
 
   private static final long serialVersionUID = - 3670232159675112852L;
 
-  @NonNull
   @Column(name = "delivered_at")
   private String deliveredAt;
 
@@ -41,9 +40,6 @@ public class Delivery extends PanacheEntity implements Serializable {
   @JsonBackReference
   @ManyToOne
   private Drone drone;
-
-  public Delivery() {
-  }
 
   public Delivery(Drone drone, String latitude, String longitude) {
     this.drone = drone;
