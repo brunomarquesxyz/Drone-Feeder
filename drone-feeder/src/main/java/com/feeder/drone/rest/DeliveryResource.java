@@ -2,6 +2,7 @@ package com.feeder.drone.rest;
 
 import com.feeder.drone.dto.DeliveryDto;
 import com.feeder.drone.entity.Delivery;
+import com.feeder.drone.exceptions.ExceptionsDefinitions;
 import com.feeder.drone.service.DeliveryService;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -25,7 +26,7 @@ public class DeliveryResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Response findAllDeliveries() {
+  public Response findAllDeliveries() throws ExceptionsDefinitions {
     return Response
         .ok(deliveryService.getAllDelivery())
         .build();
@@ -34,7 +35,7 @@ public class DeliveryResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response findDeliveryId(@PathParam("id") Long deliveryID) {
+  public Response findDeliveryId(@PathParam("id") Long deliveryID) throws ExceptionsDefinitions {
     return Response
         .ok(deliveryService.getDeliveryById(deliveryID))
         .build();
@@ -43,7 +44,7 @@ public class DeliveryResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response createDelivery(DeliveryDto deliveryDto) {
+  public Response createDelivery(DeliveryDto deliveryDto) throws ExceptionsDefinitions {
     return Response
         .status(Status.CREATED)
         .entity(deliveryService.createDelivery(deliveryDto))
@@ -54,7 +55,8 @@ public class DeliveryResource {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response updateDelivery(Delivery updatesData, @PathParam("id") Long deliveryId) {
+  public Response updateDelivery(Delivery updatesData, @PathParam("id") Long deliveryId)
+      throws ExceptionsDefinitions {
     return Response
         .status(Status.ACCEPTED)
         .entity(deliveryService.update(updatesData, deliveryId))
@@ -65,7 +67,7 @@ public class DeliveryResource {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public Response deleteDelivery(@PathParam("id") Long deliveryId) {
+  public Response deleteDelivery(@PathParam("id") Long deliveryId) throws ExceptionsDefinitions {
     if (deliveryService.deleteDelivery(deliveryId)) {
       return Response.noContent().build();
     }
