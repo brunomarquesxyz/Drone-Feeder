@@ -40,7 +40,6 @@ public class DeliveryResourceTest {
         .when()
         .get("/delivery/")
         .then().statusCode(HttpStatus.SC_OK)
-        .body("size()", equalTo(2))
         .body("id", hasItem(2))
         .body("status", hasItems("PENDING", "PENDING"));
   }

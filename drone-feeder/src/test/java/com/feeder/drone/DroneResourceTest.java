@@ -85,7 +85,9 @@ public class DroneResourceTest {
   @Test
   @DisplayName("Should find all drones")
   public void findAllDrones() {
-    Drone drone = new Drone("Drone", "100", "234");
+    String droneName = genNames();
+
+    Drone drone = new Drone(droneName, "100", "234");
 
     Drone newDrone = restSut()
         .when()
@@ -96,11 +98,9 @@ public class DroneResourceTest {
     restSut()
         .body(newDrone)
         .when()
-        .get("/drone/")
+        .get("/drone")
         .then().statusCode(HttpStatus.SC_OK)
-        .body("size()", equalTo(1))
-        .body("id", hasItem(2))
-        .body("name", hasItem("Drone"))
+        .body("name", hasItem(droneName))
         .body("latitude", hasItem("100"))
         .body("longitude", hasItem("234"));
   }
