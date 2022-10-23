@@ -1,1 +1,10 @@
 .docker
+.docker/database/#ib_16384_0.dblwr
+.docker/database/binlog.index
+.docker/database/ib_buffer_pool
+.docker/database/ibdata1
+.docker/database/mysql.ibd
+.docker/database/undo_001
+.docker/database/undo_002
+.docker/database/#innodb_redo/#ib_redo9
+.docker/database/#innodb_redo/#ib_redo10_tmp
