@@ -1,7 +1,24 @@
 version: '3.9'
+
+networks:
+  proxy:
+    driver: bridge
+
 services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    restart: unless-stopped
+    networks:
+      - proxy
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
   db:
     image: mysql:8.0.31
+    container_name: drone_feeder_mysql_db
     ports:
       - "3306:3306"
     volumes:
@@ -9,3 +26,15 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=drone_feeder
+
+  web-client:
+    build: ./drone-feeder-frontend
+    container_name: drone_feeder_frontend
+    networks:
+      - proxy
+    volumes:
+      - ./drone-feeder-frontend:/app
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    depends_on:
+      - db
