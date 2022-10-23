@@ -1,5 +1,5 @@
 run:
-		docker-compose up -d --build ./drone-feeder/gradlew quarkusDev
+		docker-compose up -d --build
 
 stop:
 		docker-compose down --remove-orphans
